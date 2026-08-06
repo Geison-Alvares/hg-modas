@@ -50,7 +50,12 @@
           <input type="number" id="campoPreco" min="0" step="0.01" required>
         </label>
 
-        <label>
+        <label class="admin-checkbox">
+          <input type="checkbox" id="campoTamanhoUnico">
+          Produto de tamanho único
+        </label>
+
+        <label id="tamanhosWrapper">
           Tamanhos disponíveis <small>(separe por vírgula, ex: P, M, G)</small>
           <input type="text" id="campoTamanhos" placeholder="P, M, G" required>
         </label>

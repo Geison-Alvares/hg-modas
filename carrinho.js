@@ -191,6 +191,8 @@ function criarCard(produto, index) {
   card.className = 'product-card';
   card.dataset.id = produto.id;
 
+  const tamanhoUnico = produto.tamanhosDisponiveis.length === 1;
+
   card.innerHTML = `
     <div class="product-card__image product-card__image--${(index % 6) + 1}">
       <img src="${produto.imagem}" alt="${produto.nome}" loading="lazy">
@@ -201,11 +203,15 @@ function criarCard(produto, index) {
       <p class="product-card__category">${produto.categoria}</p>
       <span class="product-card__price">${formatarPreco(produto.preco)}</span>
       <div class="product-card__sizes" role="group" aria-label="Tamanhos disponíveis">
-        ${produto.tamanhosDisponiveis
-          .map((tamanho) => `<button type="button" class="size-btn" data-tamanho="${tamanho}">${tamanho}</button>`)
-          .join('')}
+        ${
+          tamanhoUnico
+            ? `<span class="size-unico">Tamanho ${produto.tamanhosDisponiveis[0]}</span>`
+            : produto.tamanhosDisponiveis
+                .map((tamanho) => `<button type="button" class="size-btn" data-tamanho="${tamanho}">${tamanho}</button>`)
+                .join('')
+        }
       </div>
-      <button type="button" class="btn btn--primary btn--add" disabled>
+      <button type="button" class="btn btn--primary btn--add" ${tamanhoUnico ? '' : 'disabled'}>
         Adicionar à sacola
       </button>
     </div>
@@ -216,7 +222,7 @@ function criarCard(produto, index) {
 
   const sizeButtons = card.querySelectorAll('.size-btn');
   const addButton = card.querySelector('.btn--add');
-  let tamanhoSelecionado = null;
+  let tamanhoSelecionado = tamanhoUnico ? produto.tamanhosDisponiveis[0] : null;
 
   sizeButtons.forEach((botao) => {
     botao.addEventListener('click', () => {

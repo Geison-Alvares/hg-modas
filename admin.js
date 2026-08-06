@@ -33,6 +33,8 @@ const produtoIdField = document.getElementById('produtoId');
 const campoNome = document.getElementById('campoNome');
 const campoPreco = document.getElementById('campoPreco');
 const campoTamanhos = document.getElementById('campoTamanhos');
+const campoTamanhoUnico = document.getElementById('campoTamanhoUnico');
+const tamanhosWrapper = document.getElementById('tamanhosWrapper');
 const campoCategoria = document.getElementById('campoCategoria');
 const campoImagem = document.getElementById('campoImagem');
 const previewAtual = document.getElementById('previewAtual');
@@ -73,6 +75,16 @@ logoutBtn.addEventListener('click', () => signOut(auth));
 
 // ---------- Formulário de produto ----------
 
+function aplicarTamanhoUnico(ativo) {
+  tamanhosWrapper.hidden = ativo;
+  campoTamanhos.required = !ativo;
+  if (ativo) campoTamanhos.value = 'Único';
+}
+
+campoTamanhoUnico.addEventListener('change', () => {
+  aplicarTamanhoUnico(campoTamanhoUnico.checked);
+});
+
 function limparFormulario() {
   produtoForm.reset();
   produtoIdField.value = '';
@@ -80,6 +92,7 @@ function limparFormulario() {
   formTitle.textContent = 'Adicionar produto';
   submitBtn.textContent = 'Salvar produto';
   cancelarEdicaoBtn.hidden = true;
+  aplicarTamanhoUnico(false);
 }
 
 cancelarEdicaoBtn.addEventListener('click', limparFormulario);
@@ -94,10 +107,12 @@ produtoForm.addEventListener('submit', async (event) => {
     const dados = {
       nome: campoNome.value.trim(),
       preco: Number(campoPreco.value),
-      tamanhosDisponiveis: campoTamanhos.value
-        .split(',')
-        .map((tamanho) => tamanho.trim())
-        .filter(Boolean),
+      tamanhosDisponiveis: campoTamanhoUnico.checked
+        ? ['Único']
+        : campoTamanhos.value
+            .split(',')
+            .map((tamanho) => tamanho.trim())
+            .filter(Boolean),
       categoria: campoCategoria.value
     };
 
@@ -132,7 +147,12 @@ function preencherFormularioParaEdicao(produto) {
   produtoIdField.value = produto.id;
   campoNome.value = produto.nome;
   campoPreco.value = produto.preco;
+
+  const ehTamanhoUnico = produto.tamanhosDisponiveis.length === 1 && produto.tamanhosDisponiveis[0] === 'Único';
+  campoTamanhoUnico.checked = ehTamanhoUnico;
+  aplicarTamanhoUnico(ehTamanhoUnico);
   campoTamanhos.value = produto.tamanhosDisponiveis.join(', ');
+
   campoCategoria.value = produto.categoria;
   campoImagem.value = '';
   previewAtual.src = produto.imagem;
