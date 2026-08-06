@@ -111,6 +111,7 @@ function renderizarCarrinho() {
     const linha = document.createElement('div');
     linha.className = 'cart-item';
     linha.innerHTML = `
+      <img class="cart-item__image" src="${item.imagem}" alt="${item.nome}">
       <div class="cart-item__info">
         <strong>${item.nome}</strong>
         <span>Tamanho: ${item.tamanho} · ${item.quantidade}x ${formatarPreco(item.preco)}</span>
