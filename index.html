@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HG Modas — Moda Minimalista</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header__inner">
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <a href="#" class="logo">HG Modas</a>
+
+      <nav class="nav" id="nav-menu">
+        <a href="#produtos" data-categoria="">Novidades</a>
+        <a href="#produtos" data-categoria="Feminino">Feminino</a>
+        <a href="#produtos" data-categoria="Masculino">Masculino</a>
+        <a href="#produtos" data-categoria="Acessórios">Acessórios</a>
+        <a href="#sobre">Sobre</a>
+      </nav>
+
+      <div class="header__icons">
+        <button class="icon-btn" aria-label="Buscar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="Conta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+        </button>
+        <button class="icon-btn" id="cartToggle" aria-label="Sacola">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 8h12l-1 13H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <span class="badge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer__header">
+      <h2>Sua sacola</h2>
+      <button class="cart-close" id="cartClose" type="button" aria-label="Fechar sacola">&times;</button>
+    </div>
+
+    <div class="cart-drawer__items" id="cartItems"></div>
+
+    <div class="cart-drawer__footer">
+      <div class="cart-drawer__total">
+        <span>Total</span>
+        <span id="cartTotal">R$ 0,00</span>
+      </div>
+
+      <form id="checkoutForm" class="admin-form">
+        <label>
+          Nome completo
+          <input type="text" id="clienteNome" required>
+        </label>
+        <label>
+          Telefone/WhatsApp para contato
+          <input type="tel" id="clienteTelefone" placeholder="(11) 99999-9999" required>
+        </label>
+        <label>
+          Endereço de entrega <small>(opcional)</small>
+          <input type="text" id="clienteEndereco" placeholder="Rua, número, bairro, cidade">
+        </label>
+        <button type="submit" class="btn btn--primary" id="checkoutBtn">Finalizar pedido via WhatsApp</button>
+      </form>
+    </div>
+  </aside>
+
+  <main>
+    <section class="hero">
+      <div class="hero__content">
+        <span class="hero__eyebrow">Coleção Inverno 26</span>
+        <h1 class="hero__title">Essência em<br>cada peça.</h1>
+        <p class="hero__text">Roupas atemporais, feitas com materiais nobres e um design que fala por si.</p>
+        <a href="#produtos" class="btn btn--primary">Ver coleção</a>
+      </div>
+    </section>
+
+    <section class="products" id="produtos">
+      <div class="products__header">
+        <h2>Mais vendidos</h2>
+        <p>Peças selecionadas para compor o seu essencial.</p>
+      </div>
+
+      <div class="product-grid" id="productGrid">
+        <!-- Cards renderizados dinamicamente por carrinho.js a partir de produtos.js -->
+      </div>
+    </section>
+
+    <section class="newsletter">
+      <h2>Fique por dentro</h2>
+      <p>Receba novidades e ofertas exclusivas em primeira mão.</p>
+      <form class="newsletter__form" onsubmit="return false;">
+        <input type="email" placeholder="Seu melhor e-mail" required aria-label="E-mail">
+        <button type="submit" class="btn btn--primary">Inscrever</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer" id="sobre">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <span class="logo">HG Modas</span>
+        <p>Moda minimalista para o seu dia a dia.</p>
+      </div>
+      <div class="footer__col">
+        <h4>Loja</h4>
+        <a href="#">Novidades</a>
+        <a href="#">Feminino</a>
+        <a href="#">Masculino</a>
+      </div>
+      <div class="footer__col">
+        <h4>Ajuda</h4>
+        <a href="#">Trocas e devoluções</a>
+        <a href="#">Entrega</a>
+        <a href="#">Contato</a>
+      </div>
+      <div class="footer__col">
+        <h4>Empresa</h4>
+        <a href="#">Sobre nós</a>
+        <a href="#">Sustentabilidade</a>
+        <a href="admin.html">Painel Admin</a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>&copy; 2026 HG Modas. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('menuToggle');
+    const menu = document.getElementById('nav-menu');
+    toggle.addEventListener('click', () => {
+      const isOpen = menu.classList.toggle('is-open');
+      toggle.classList.toggle('is-open', isOpen);
+      toggle.setAttribute('aria-expanded', isOpen);
+    });
+  </script>
+  <script type="module" src="carrinho.js"></script>
+</body>
+</html>

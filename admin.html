@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HG Modas — Painel Admin</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header__inner">
+      <a href="index.html" class="logo">HG Modas</a>
+      <span class="admin-title">Painel Admin</span>
+      <button id="logoutBtn" class="btn btn--primary" type="button" hidden>Sair</button>
+    </div>
+  </header>
+
+  <main class="admin">
+
+    <section id="loginSection" class="admin-login">
+      <h1>Entrar</h1>
+      <form id="loginForm" class="admin-form">
+        <label>
+          E-mail
+          <input type="email" id="loginEmail" required>
+        </label>
+        <label>
+          Senha
+          <input type="password" id="loginPassword" required>
+        </label>
+        <button type="submit" class="btn btn--primary">Entrar</button>
+        <p id="loginError" class="admin-error" hidden></p>
+      </form>
+    </section>
+
+    <section id="adminSection" class="admin-panel" hidden>
+      <h1 id="formTitle">Adicionar produto</h1>
+
+      <form id="produtoForm" class="admin-form">
+        <input type="hidden" id="produtoId">
+
+        <label>
+          Nome do produto
+          <input type="text" id="campoNome" required>
+        </label>
+
+        <label>
+          Preço (R$)
+          <input type="number" id="campoPreco" min="0" step="0.01" required>
+        </label>
+
+        <label>
+          Tamanhos disponíveis <small>(separe por vírgula, ex: P, M, G)</small>
+          <input type="text" id="campoTamanhos" placeholder="P, M, G" required>
+        </label>
+
+        <label>
+          Categoria
+          <select id="campoCategoria" required>
+            <option value="Feminino">Feminino</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Unissex">Unissex</option>
+            <option value="Acessórios">Acessórios</option>
+          </select>
+        </label>
+
+        <label>
+          Foto do produto
+          <input type="file" id="campoImagem" accept="image/*">
+        </label>
+
+        <img id="previewAtual" class="admin-preview" alt="Foto atual do produto" hidden>
+
+        <div class="admin-form__actions">
+          <button type="submit" class="btn btn--primary" id="submitBtn">Salvar produto</button>
+          <button type="button" class="btn" id="cancelarEdicaoBtn" hidden>Cancelar edição</button>
+        </div>
+
+        <p id="formStatus" class="admin-status" hidden></p>
+      </form>
+
+      <h2>Produtos cadastrados</h2>
+      <div id="listaProdutos" class="admin-product-list"></div>
+    </section>
+
+  </main>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
