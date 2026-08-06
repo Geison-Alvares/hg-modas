@@ -702,6 +702,26 @@ img {
   gap: 0.8rem;
 }
 
+.account-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--color-line);
+  margin-bottom: 1.3rem;
+}
+
+.account-tab {
+  flex: 1;
+  padding: 0.7rem;
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.account-tab.is-active {
+  color: var(--color-ink);
+  border-bottom-color: var(--color-ink);
+}
+
 /* ============ Newsletter ============ */
 .newsletter {
   background: var(--color-ink);

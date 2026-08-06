@@ -10,6 +10,7 @@ import {
   updateDoc,
   deleteDoc,
   doc,
+  getDoc,
   onSnapshot,
   serverTimestamp
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js';
@@ -51,11 +52,25 @@ const formatarPreco = (valor) =>
 
 // ---------- Autenticação ----------
 
-onAuthStateChanged(auth, (user) => {
-  const logado = Boolean(user);
-  loginSection.hidden = logado;
-  adminSection.hidden = !logado;
-  logoutBtn.hidden = !logado;
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    loginSection.hidden = false;
+    adminSection.hidden = true;
+    logoutBtn.hidden = true;
+    return;
+  }
+
+  const adminSnap = await getDoc(doc(db, 'admins', user.uid));
+  if (!adminSnap.exists()) {
+    loginError.textContent = 'Essa conta não tem permissão de administrador.';
+    loginError.hidden = false;
+    await signOut(auth);
+    return;
+  }
+
+  loginSection.hidden = true;
+  adminSection.hidden = false;
+  logoutBtn.hidden = false;
 });
 
 loginForm.addEventListener('submit', async (event) => {

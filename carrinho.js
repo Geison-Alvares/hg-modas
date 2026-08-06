@@ -3,6 +3,7 @@ import {
   collection,
   onSnapshot
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js';
+import { obterPerfilCliente } from './conta.js';
 
 const STORAGE_KEY = 'nora:carrinho';
 
@@ -78,14 +79,26 @@ function removerDoCarrinho(index) {
 // ---------- Painel lateral do carrinho ----------
 
 function abrirCarrinho() {
+  document.getElementById('accountDrawer')?.classList.remove('is-open');
+  document.getElementById('accountOverlay')?.classList.remove('is-open');
+
   cartDrawer.classList.add('is-open');
   cartOverlay.classList.add('is-open');
   renderizarCarrinho();
+  preencherDadosCliente();
 }
 
 function fecharCarrinho() {
   cartDrawer.classList.remove('is-open');
   cartOverlay.classList.remove('is-open');
+}
+
+function preencherDadosCliente() {
+  const perfil = obterPerfilCliente();
+  if (!perfil) return;
+  document.getElementById('clienteNome').value = perfil.nome || '';
+  document.getElementById('clienteTelefone').value = perfil.telefone || '';
+  document.getElementById('clienteEndereco').value = perfil.endereco || '';
 }
 
 cartToggle?.addEventListener('click', abrirCarrinho);

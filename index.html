@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HG Modas — Moda Minimalista</title>
-  <link rel="stylesheet" href="style.css?v=4">
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
@@ -28,7 +28,7 @@
         <button class="icon-btn" aria-label="Buscar">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </button>
-        <button class="icon-btn" aria-label="Conta">
+        <button class="icon-btn" id="accountToggle" aria-label="Conta">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
         </button>
         <button class="icon-btn" id="cartToggle" aria-label="Sacola">
@@ -69,6 +69,84 @@
         </label>
         <button type="submit" class="btn btn--primary" id="checkoutBtn">Finalizar pedido via WhatsApp</button>
       </form>
+    </div>
+  </aside>
+
+  <div class="cart-overlay" id="accountOverlay"></div>
+  <aside class="cart-drawer" id="accountDrawer">
+    <div class="cart-drawer__header">
+      <h2>Sua conta</h2>
+      <button class="cart-close" id="accountClose" type="button" aria-label="Fechar conta">&times;</button>
+    </div>
+
+    <div class="cart-drawer__items">
+      <section id="authSection">
+        <div class="account-tabs">
+          <button type="button" class="account-tab is-active" id="tabLogin">Entrar</button>
+          <button type="button" class="account-tab" id="tabSignup">Criar conta</button>
+        </div>
+
+        <form id="clienteLoginForm" class="admin-form">
+          <label>
+            E-mail
+            <input type="email" id="loginClienteEmail" required>
+          </label>
+          <label>
+            Senha
+            <input type="password" id="loginClienteSenha" required>
+          </label>
+          <button type="submit" class="btn btn--primary">Entrar</button>
+        </form>
+
+        <form id="clienteSignupForm" class="admin-form" hidden>
+          <label>
+            Nome completo
+            <input type="text" id="signupNome" required>
+          </label>
+          <label>
+            Telefone/WhatsApp
+            <input type="tel" id="signupTelefone" placeholder="(11) 99999-9999" required>
+          </label>
+          <label>
+            E-mail
+            <input type="email" id="signupEmail" required>
+          </label>
+          <label>
+            Senha <small>(mínimo 6 caracteres)</small>
+            <input type="password" id="signupSenha" minlength="6" required>
+          </label>
+          <button type="submit" class="btn btn--primary">Criar conta</button>
+        </form>
+
+        <p id="clienteAuthError" class="admin-error" hidden></p>
+      </section>
+
+      <section id="profileSection" hidden>
+        <p class="cart-empty" style="padding: 0 0 1rem;">Seus dados, usados para agilizar o checkout:</p>
+        <form id="profileForm" class="admin-form">
+          <label>
+            Nome completo
+            <input type="text" id="profileNome" required>
+          </label>
+          <label>
+            Telefone/WhatsApp
+            <input type="tel" id="profileTelefone" required>
+          </label>
+          <label>
+            Endereço de entrega <small>(opcional)</small>
+            <input type="text" id="profileEndereco">
+          </label>
+          <label>
+            E-mail
+            <input type="email" id="profileEmail" disabled>
+          </label>
+          <div class="admin-form__actions">
+            <button type="submit" class="btn btn--primary">Salvar dados</button>
+            <button type="button" class="btn" id="clienteLogoutBtn">Sair</button>
+          </div>
+          <p id="profileStatus" class="admin-status" hidden></p>
+        </form>
+      </section>
     </div>
   </aside>
 
@@ -142,6 +220,6 @@
       toggle.setAttribute('aria-expanded', isOpen);
     });
   </script>
-  <script type="module" src="carrinho.js?v=3"></script>
+  <script type="module" src="carrinho.js?v=4"></script>
 </body>
 </html>
