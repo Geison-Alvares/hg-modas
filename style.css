@@ -484,6 +484,10 @@ img {
   height: 16px;
 }
 
+.admin-form label[hidden] {
+  display: none;
+}
+
 .admin-form__actions {
   display: flex;
   gap: 0.8rem;
