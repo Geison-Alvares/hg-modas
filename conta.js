@@ -21,6 +21,12 @@ const accountOverlay = document.getElementById('accountOverlay');
 const accountClose = document.getElementById('accountClose');
 
 const authSection = document.getElementById('authSection');
+const verificacaoSection = document.getElementById('verificacaoSection');
+const verificacaoEmailEl = document.getElementById('verificacaoEmail');
+const verificacaoStatus = document.getElementById('verificacaoStatus');
+const jaVerifiqueiBtn = document.getElementById('jaVerifiqueiBtn');
+const reenviarVerificacaoBtn = document.getElementById('reenviarVerificacaoBtn');
+const verificacaoLogoutBtn = document.getElementById('verificacaoLogoutBtn');
 const profileSection = document.getElementById('profileSection');
 
 const tabLogin = document.getElementById('tabLogin');
@@ -97,7 +103,7 @@ function fecharConta() {
 }
 
 accountToggle?.addEventListener('click', () => {
-  if (auth.currentUser) {
+  if (auth.currentUser?.emailVerified) {
     accountMenu.hidden = !accountMenu.hidden;
   } else {
     abrirConta();
@@ -208,9 +214,6 @@ signupForm?.addEventListener('submit', async (event) => {
     });
     await sendEmailVerification(credencial.user);
     signupForm.reset();
-
-    profileStatus.textContent = 'Conta criada! Enviamos um link de confirmação para o seu e-mail.';
-    profileStatus.hidden = false;
   } catch (erro) {
     authError.textContent = `Não foi possível criar a conta: ${erro.message}`;
     authError.hidden = false;
@@ -307,16 +310,18 @@ profileForm?.addEventListener('submit', async (event) => {
   }
 });
 
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    perfilAtual = null;
-    authSection.hidden = false;
+async function sincronizarUsuario(user) {
+  if (!user.emailVerified) {
+    authSection.hidden = true;
     profileSection.hidden = true;
+    verificacaoSection.hidden = false;
+    verificacaoEmailEl.textContent = user.email || '';
     accountMenu.hidden = true;
     atualizarNomeNoHeader(null, null);
     return;
   }
 
+  verificacaoSection.hidden = true;
   authSection.hidden = true;
   profileSection.hidden = false;
 
@@ -334,4 +339,47 @@ onAuthStateChanged(auth, async (user) => {
   entrarModoVisualizacao();
   atualizarNomeNoHeader(perfilAtual, user.email);
   atualizarMenuDropdown(perfilAtual, user.email);
+}
+
+jaVerifiqueiBtn?.addEventListener('click', async () => {
+  verificacaoStatus.hidden = true;
+  const user = auth.currentUser;
+  if (!user) return;
+
+  await user.reload();
+
+  if (user.emailVerified) {
+    await sincronizarUsuario(user);
+  } else {
+    verificacaoStatus.textContent = 'Ainda não identificamos a confirmação. Verifique se clicou no link do e-mail.';
+    verificacaoStatus.hidden = false;
+  }
+});
+
+reenviarVerificacaoBtn?.addEventListener('click', async () => {
+  verificacaoStatus.hidden = true;
+  try {
+    await sendEmailVerification(auth.currentUser);
+    verificacaoStatus.textContent = 'E-mail reenviado!';
+    verificacaoStatus.hidden = false;
+  } catch (erro) {
+    verificacaoStatus.textContent = `Não foi possível reenviar: ${erro.message}`;
+    verificacaoStatus.hidden = false;
+  }
+});
+
+verificacaoLogoutBtn?.addEventListener('click', () => signOut(auth));
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    perfilAtual = null;
+    authSection.hidden = false;
+    profileSection.hidden = true;
+    verificacaoSection.hidden = true;
+    accountMenu.hidden = true;
+    atualizarNomeNoHeader(null, null);
+    return;
+  }
+
+  await sincronizarUsuario(user);
 });

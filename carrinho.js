@@ -3,7 +3,7 @@ import {
   collection,
   onSnapshot
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js';
-import { obterPerfilCliente } from './conta.js?v=9';
+import { obterPerfilCliente } from './conta.js?v=10';
 
 const STORAGE_KEY = 'nora:carrinho';
 

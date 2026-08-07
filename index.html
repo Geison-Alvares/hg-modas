@@ -150,6 +150,19 @@
         <p id="clienteAuthError" class="admin-error" hidden></p>
       </section>
 
+      <section id="verificacaoSection" hidden>
+        <div class="auth-intro">
+          <h3>Confirme seu e-mail</h3>
+          <p>Enviamos um link de confirmação para <strong id="verificacaoEmail"></strong>. Verifique sua caixa de entrada para continuar.</p>
+        </div>
+        <div class="admin-form__actions">
+          <button type="button" class="btn btn--primary" id="jaVerifiqueiBtn">Já verifiquei</button>
+          <button type="button" class="btn" id="reenviarVerificacaoBtn">Reenviar e-mail</button>
+        </div>
+        <p id="verificacaoStatus" class="admin-status" hidden></p>
+        <button type="button" class="btn" id="verificacaoLogoutBtn">Sair</button>
+      </section>
+
       <section id="profileSection" hidden>
         <p class="cart-empty" style="padding: 0 0 1rem;">Meus dados</p>
         <form id="profileForm" class="admin-form">
@@ -252,6 +265,6 @@
       toggle.setAttribute('aria-expanded', isOpen);
     });
   </script>
-  <script type="module" src="carrinho.js?v=12"></script>
+  <script type="module" src="carrinho.js?v=13"></script>
 </body>
 </html>
