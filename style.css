@@ -163,6 +163,54 @@ img {
   flex-shrink: 0;
 }
 
+.account-wrap {
+  position: relative;
+}
+
+.account-menu {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: 0;
+  width: 220px;
+  max-width: calc(100vw - 2rem);
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  z-index: 150;
+  padding: 0.8rem 0;
+}
+
+.account-menu__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0 1rem 0.7rem;
+  margin-bottom: 0.4rem;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.account-menu__header strong {
+  font-size: 0.9rem;
+}
+
+.account-menu__header span {
+  font-size: 0.78rem;
+  color: var(--color-ink-soft);
+}
+
+.account-menu__item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  color: var(--color-ink);
+}
+
+.account-menu__item:hover {
+  background: var(--color-bg);
+}
+
 .account-name {
   font-size: 0.82rem;
   color: var(--color-ink);
@@ -487,6 +535,11 @@ img {
 .admin-form select:focus {
   outline: none;
   border-color: var(--color-ink);
+}
+
+.admin-form input:disabled {
+  background: var(--color-bg);
+  color: var(--color-ink-soft);
 }
 
 .admin-checkbox {

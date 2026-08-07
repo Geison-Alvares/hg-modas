@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HG Modas — Moda Minimalista</title>
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
 
@@ -28,10 +28,21 @@
         <button class="icon-btn" aria-label="Buscar">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </button>
-        <button class="icon-btn" id="accountToggle" aria-label="Conta">
-          <svg id="accountIconSvg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
-          <span id="accountName" class="account-name" hidden></span>
-        </button>
+        <div class="account-wrap">
+          <button class="icon-btn" id="accountToggle" aria-label="Conta">
+            <svg id="accountIconSvg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+            <span id="accountName" class="account-name" hidden></span>
+          </button>
+
+          <div class="account-menu" id="accountMenu" hidden>
+            <div class="account-menu__header">
+              <strong id="accountMenuNome"></strong>
+              <span id="accountMenuEmail"></span>
+            </div>
+            <button type="button" class="account-menu__item" id="menuDadosBtn">Meus dados</button>
+            <button type="button" class="account-menu__item" id="menuSairBtn">Sair</button>
+          </div>
+        </div>
         <button class="icon-btn" id="cartToggle" aria-label="Sacola">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 8h12l-1 13H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
           <span class="badge">0</span>
@@ -140,30 +151,32 @@
       </section>
 
       <section id="profileSection" hidden>
-        <p class="cart-empty" style="padding: 0 0 1rem;">Seus dados, usados para agilizar o checkout:</p>
+        <p class="cart-empty" style="padding: 0 0 1rem;">Meus dados</p>
         <form id="profileForm" class="admin-form">
           <label>
             Nome completo
-            <input type="text" id="profileNome" required>
+            <input type="text" id="profileNome" required disabled>
           </label>
           <label>
             Telefone/WhatsApp
-            <input type="tel" id="profileTelefone" required>
+            <input type="tel" id="profileTelefone" required disabled>
           </label>
           <label>
             Endereço de entrega <small>(opcional)</small>
-            <input type="text" id="profileEndereco">
+            <input type="text" id="profileEndereco" disabled>
           </label>
           <label>
             E-mail
             <input type="email" id="profileEmail" disabled>
           </label>
           <div class="admin-form__actions">
-            <button type="submit" class="btn btn--primary">Salvar dados</button>
-            <button type="button" class="btn" id="clienteLogoutBtn">Sair</button>
+            <button type="button" class="btn btn--primary" id="alterarDadosBtn">Alterar dados</button>
+            <button type="submit" class="btn btn--primary" id="salvarDadosBtn" hidden>Salvar dados</button>
+            <button type="button" class="btn" id="cancelarEdicaoPerfilBtn" hidden>Cancelar</button>
           </div>
           <p id="profileStatus" class="admin-status" hidden></p>
         </form>
+        <button type="button" class="btn" id="clienteLogoutBtn">Sair</button>
       </section>
     </div>
   </aside>
@@ -238,6 +251,6 @@
       toggle.setAttribute('aria-expanded', isOpen);
     });
   </script>
-  <script type="module" src="carrinho.js?v=7"></script>
+  <script type="module" src="carrinho.js?v=8"></script>
 </body>
 </html>

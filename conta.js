@@ -33,10 +33,21 @@ const profileTelefone = document.getElementById('profileTelefone');
 const profileEndereco = document.getElementById('profileEndereco');
 const profileEmail = document.getElementById('profileEmail');
 const profileStatus = document.getElementById('profileStatus');
+const alterarDadosBtn = document.getElementById('alterarDadosBtn');
+const salvarDadosBtn = document.getElementById('salvarDadosBtn');
+const cancelarEdicaoPerfilBtn = document.getElementById('cancelarEdicaoPerfilBtn');
 const clienteLogoutBtn = document.getElementById('clienteLogoutBtn');
 const googleSignInBtn = document.getElementById('googleSignInBtn');
 const accountIconSvg = document.getElementById('accountIconSvg');
 const accountNameEl = document.getElementById('accountName');
+
+const accountMenu = document.getElementById('accountMenu');
+const accountMenuNome = document.getElementById('accountMenuNome');
+const accountMenuEmail = document.getElementById('accountMenuEmail');
+const menuDadosBtn = document.getElementById('menuDadosBtn');
+const menuSairBtn = document.getElementById('menuSairBtn');
+
+const camposPerfil = [profileNome, profileTelefone, profileEndereco, profileEmail];
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -62,6 +73,12 @@ function atualizarNomeNoHeader(perfil, emailFallback) {
   }
 }
 
+function atualizarMenuDropdown(perfil, emailFallback) {
+  if (!accountMenuNome || !accountMenuEmail) return;
+  accountMenuNome.textContent = perfil?.nome || 'Minha conta';
+  accountMenuEmail.textContent = perfil?.email || emailFallback || '';
+}
+
 // ---------- Painel lateral ----------
 
 function abrirConta() {
@@ -77,9 +94,33 @@ function fecharConta() {
   accountOverlay.classList.remove('is-open');
 }
 
-accountToggle?.addEventListener('click', abrirConta);
+accountToggle?.addEventListener('click', () => {
+  if (auth.currentUser) {
+    accountMenu.hidden = !accountMenu.hidden;
+  } else {
+    abrirConta();
+  }
+});
+
 accountClose?.addEventListener('click', fecharConta);
 accountOverlay?.addEventListener('click', fecharConta);
+
+document.addEventListener('click', (event) => {
+  if (!accountMenu || accountMenu.hidden) return;
+  if (accountMenu.contains(event.target) || accountToggle.contains(event.target)) return;
+  accountMenu.hidden = true;
+});
+
+menuDadosBtn?.addEventListener('click', () => {
+  accountMenu.hidden = true;
+  entrarModoVisualizacao();
+  abrirConta();
+});
+
+menuSairBtn?.addEventListener('click', () => {
+  accountMenu.hidden = true;
+  signOut(auth);
+});
 
 // ---------- Abas Entrar / Criar conta ----------
 
@@ -170,7 +211,36 @@ signupForm?.addEventListener('submit', async (event) => {
   }
 });
 
-// ---------- Perfil ----------
+// ---------- Perfil (visualizar / editar) ----------
+
+function entrarModoVisualizacao() {
+  camposPerfil.forEach((campo) => { campo.disabled = true; });
+  alterarDadosBtn.hidden = false;
+  salvarDadosBtn.hidden = true;
+  cancelarEdicaoPerfilBtn.hidden = true;
+  profileStatus.hidden = true;
+}
+
+function entrarModoEdicao() {
+  camposPerfil.forEach((campo) => { campo.disabled = false; });
+  alterarDadosBtn.hidden = true;
+  salvarDadosBtn.hidden = false;
+  cancelarEdicaoPerfilBtn.hidden = false;
+}
+
+function preencherFormularioPerfil(perfil) {
+  profileNome.value = perfil?.nome || '';
+  profileTelefone.value = perfil?.telefone || '';
+  profileEndereco.value = perfil?.endereco || '';
+  profileEmail.value = perfil?.email || '';
+}
+
+alterarDadosBtn?.addEventListener('click', entrarModoEdicao);
+
+cancelarEdicaoPerfilBtn?.addEventListener('click', () => {
+  preencherFormularioPerfil(perfilAtual);
+  entrarModoVisualizacao();
+});
 
 clienteLogoutBtn?.addEventListener('click', () => signOut(auth));
 
@@ -183,13 +253,15 @@ profileForm?.addEventListener('submit', async (event) => {
     nome: profileNome.value.trim(),
     telefone: profileTelefone.value.trim(),
     endereco: profileEndereco.value.trim(),
-    email: user.email
+    email: profileEmail.value.trim()
   };
 
   await setDoc(doc(db, 'clientes', user.uid), dados, { merge: true });
   perfilAtual = dados;
   atualizarNomeNoHeader(perfilAtual, user.email);
+  atualizarMenuDropdown(perfilAtual, user.email);
 
+  entrarModoVisualizacao();
   profileStatus.textContent = 'Dados salvos!';
   profileStatus.hidden = false;
 });
@@ -199,6 +271,7 @@ onAuthStateChanged(auth, async (user) => {
     perfilAtual = null;
     authSection.hidden = false;
     profileSection.hidden = true;
+    accountMenu.hidden = true;
     atualizarNomeNoHeader(null, null);
     return;
   }
@@ -211,9 +284,8 @@ onAuthStateChanged(auth, async (user) => {
     ? snap.data()
     : { nome: '', telefone: '', endereco: '', email: user.email };
 
-  profileNome.value = perfilAtual.nome || '';
-  profileTelefone.value = perfilAtual.telefone || '';
-  profileEndereco.value = perfilAtual.endereco || '';
-  profileEmail.value = perfilAtual.email || user.email || '';
+  preencherFormularioPerfil(perfilAtual);
+  entrarModoVisualizacao();
   atualizarNomeNoHeader(perfilAtual, user.email);
+  atualizarMenuDropdown(perfilAtual, user.email);
 });
