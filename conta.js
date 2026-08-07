@@ -6,7 +6,8 @@ import {
   GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
-  verifyBeforeUpdateEmail
+  verifyBeforeUpdateEmail,
+  sendEmailVerification
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js';
 import {
   doc,
@@ -205,7 +206,11 @@ signupForm?.addEventListener('submit', async (event) => {
       email,
       endereco: ''
     });
+    await sendEmailVerification(credencial.user);
     signupForm.reset();
+
+    profileStatus.textContent = 'Conta criada! Enviamos um link de confirmação para o seu e-mail.';
+    profileStatus.hidden = false;
   } catch (erro) {
     authError.textContent = `Não foi possível criar a conta: ${erro.message}`;
     authError.hidden = false;
@@ -219,7 +224,6 @@ function entrarModoVisualizacao() {
   alterarDadosBtn.hidden = false;
   salvarDadosBtn.hidden = true;
   cancelarEdicaoPerfilBtn.hidden = true;
-  profileStatus.hidden = true;
 }
 
 function entrarModoEdicao() {
