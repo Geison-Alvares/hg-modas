@@ -55,6 +55,7 @@ const menuSairBtn = document.getElementById('menuSairBtn');
 const telefoneCodigoSection = document.getElementById('telefoneCodigoSection');
 const codigoSmsInput = document.getElementById('codigoSmsInput');
 const confirmarCodigoBtn = document.getElementById('confirmarCodigoBtn');
+const reenviarCodigoBtn = document.getElementById('reenviarCodigoBtn');
 const cancelarCodigoBtn = document.getElementById('cancelarCodigoBtn');
 const codigoSmsStatus = document.getElementById('codigoSmsStatus');
 
@@ -272,9 +273,10 @@ function paraE164(numero) {
 }
 
 function obterRecaptcha() {
-  if (!recaptchaVerifier) {
-    recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { size: 'invisible' });
+  if (recaptchaVerifier) {
+    recaptchaVerifier.clear();
   }
+  recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { size: 'invisible' });
   return recaptchaVerifier;
 }
 
@@ -320,6 +322,13 @@ confirmarCodigoBtn?.addEventListener('click', async () => {
     codigoSmsStatus.textContent = `Código inválido: ${erro.message}`;
     codigoSmsStatus.hidden = false;
   }
+});
+
+reenviarCodigoBtn?.addEventListener('click', async () => {
+  codigoSmsStatus.hidden = true;
+  reenviarCodigoBtn.disabled = true;
+  await iniciarVerificacaoTelefone(profileTelefone.value.trim());
+  reenviarCodigoBtn.disabled = false;
 });
 
 cancelarCodigoBtn?.addEventListener('click', () => {
