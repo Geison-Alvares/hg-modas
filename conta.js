@@ -50,6 +50,8 @@ function atualizarNomeNoHeader(perfil, emailFallback) {
   const primeiroNome = (perfil?.nome || '').trim().split(' ')[0];
   const exibicao = primeiroNome || emailFallback || '';
 
+  if (!accountNameEl || !accountIconSvg) return;
+
   if (exibicao) {
     accountNameEl.textContent = exibicao;
     accountNameEl.hidden = false;

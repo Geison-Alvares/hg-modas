@@ -157,6 +157,12 @@ img {
   gap: 0.4rem;
 }
 
+#accountIconSvg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
 .account-name {
   font-size: 0.82rem;
   color: var(--color-ink);
