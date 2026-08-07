@@ -60,7 +60,7 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
-  const adminSnap = await getDoc(doc(db, 'admins', user.uid));
+  const adminSnap = await getDoc(doc(db, 'admin', user.uid));
   if (!adminSnap.exists()) {
     loginError.textContent = 'Essa conta não tem permissão de administrador.';
     loginError.hidden = false;
