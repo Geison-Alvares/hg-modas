@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 :root {
   --color-bg: #faf9f7;
   --color-surface: #ffffff;
