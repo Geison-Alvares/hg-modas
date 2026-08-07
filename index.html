@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HG Modas — Moda Minimalista</title>
-  <link rel="stylesheet" href="style.css?v=11">
+  <link rel="stylesheet" href="style.css?v=12">
 </head>
 <body>
 
@@ -190,7 +190,12 @@
           <p id="profileStatus" class="admin-status" hidden></p>
         </form>
 
-        <button type="button" class="btn" id="clienteLogoutBtn">Sair</button>
+        <div class="admin-form__actions">
+          <button type="button" class="btn" id="redefinirSenhaBtn">Redefinir senha</button>
+          <button type="button" class="btn" id="clienteLogoutBtn">Sair</button>
+        </div>
+
+        <button type="button" class="btn btn--danger" id="excluirContaBtn">Excluir minha conta</button>
       </section>
     </div>
   </aside>
@@ -265,6 +270,6 @@
       toggle.setAttribute('aria-expanded', isOpen);
     });
   </script>
-  <script type="module" src="carrinho.js?v=14"></script>
+  <script type="module" src="carrinho.js?v=15"></script>
 </body>
 </html>

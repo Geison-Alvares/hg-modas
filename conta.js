@@ -7,12 +7,15 @@ import {
   signOut,
   onAuthStateChanged,
   verifyBeforeUpdateEmail,
-  sendEmailVerification
+  sendEmailVerification,
+  sendPasswordResetEmail,
+  deleteUser
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js';
 import {
   doc,
   getDoc,
-  setDoc
+  setDoc,
+  deleteDoc
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js';
 
 const accountToggle = document.getElementById('accountToggle');
@@ -45,6 +48,8 @@ const alterarDadosBtn = document.getElementById('alterarDadosBtn');
 const salvarDadosBtn = document.getElementById('salvarDadosBtn');
 const cancelarEdicaoPerfilBtn = document.getElementById('cancelarEdicaoPerfilBtn');
 const clienteLogoutBtn = document.getElementById('clienteLogoutBtn');
+const redefinirSenhaBtn = document.getElementById('redefinirSenhaBtn');
+const excluirContaBtn = document.getElementById('excluirContaBtn');
 const googleSignInBtn = document.getElementById('googleSignInBtn');
 const accountIconSvg = document.getElementById('accountIconSvg');
 const accountNameEl = document.getElementById('accountName');
@@ -268,6 +273,41 @@ cancelarEdicaoPerfilBtn?.addEventListener('click', () => {
 
 clienteLogoutBtn?.addEventListener('click', () => signOut(auth));
 
+redefinirSenhaBtn?.addEventListener('click', async () => {
+  const user = auth.currentUser;
+  if (!user?.email) return;
+
+  profileStatus.hidden = true;
+  try {
+    await sendPasswordResetEmail(auth, user.email);
+    profileStatus.textContent = 'Enviamos um link de redefinição de senha para seu e-mail (confira também o spam).';
+    profileStatus.hidden = false;
+  } catch (erro) {
+    profileStatus.textContent = `Não foi possível enviar o e-mail: ${erro.message}`;
+    profileStatus.hidden = false;
+  }
+});
+
+excluirContaBtn?.addEventListener('click', async () => {
+  const confirmar = confirm('Tem certeza que deseja excluir sua conta? Essa ação não pode ser desfeita.');
+  if (!confirmar) return;
+
+  const user = auth.currentUser;
+  if (!user) return;
+
+  profileStatus.hidden = true;
+  try {
+    await deleteDoc(doc(db, 'clientes', user.uid));
+    await deleteUser(user);
+  } catch (erro) {
+    profileStatus.textContent =
+      erro.code === 'auth/requires-recent-login'
+        ? 'Por segurança, saia e entre novamente antes de excluir a conta.'
+        : `Não foi possível excluir a conta: ${erro.message}`;
+    profileStatus.hidden = false;
+  }
+});
+
 profileForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
   const user = auth.currentUser;
@@ -324,6 +364,8 @@ async function sincronizarUsuario(user) {
   verificacaoSection.hidden = true;
   authSection.hidden = true;
   profileSection.hidden = false;
+
+  redefinirSenhaBtn.hidden = !user.providerData.some((p) => p.providerId === 'password');
 
   const snap = await getDoc(doc(db, 'clientes', user.uid));
   perfilAtual = snap.exists()

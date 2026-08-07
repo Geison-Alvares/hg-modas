@@ -75,6 +75,18 @@ img {
   color: var(--color-ink);
 }
 
+.btn--danger {
+  width: 100%;
+  margin-top: 0.8rem;
+  border: 1px solid var(--color-sale);
+  color: var(--color-sale);
+}
+
+.btn--danger:hover {
+  background: var(--color-sale);
+  color: var(--color-surface);
+}
+
 /* ============ Header ============ */
 .header {
   position: sticky;
