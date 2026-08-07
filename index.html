@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HG Modas — Moda Minimalista</title>
-  <link rel="stylesheet" href="style.css?v=12">
+  <title>Luz Serena — Velas e Aromas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital@0;1&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=13">
 </head>
 <body>
 
@@ -14,13 +17,13 @@
         <span></span><span></span><span></span>
       </button>
 
-      <a href="#" class="logo">HG Modas</a>
+      <a href="#" class="logo">Luz Serena</a>
 
       <nav class="nav" id="nav-menu">
         <a href="#produtos" data-categoria="">Novidades</a>
-        <a href="#produtos" data-categoria="Feminino">Feminino</a>
-        <a href="#produtos" data-categoria="Masculino">Masculino</a>
-        <a href="#produtos" data-categoria="Acessórios">Acessórios</a>
+        <a href="#produtos" data-categoria="Velas Aromáticas">Velas Aromáticas</a>
+        <a href="#produtos" data-categoria="Velas Decorativas">Decorativas</a>
+        <a href="#produtos" data-categoria="Kits e Presentes">Kits e Presentes</a>
         <a href="#sobre">Sobre</a>
       </nav>
 
@@ -203,61 +206,88 @@
   <main>
     <section class="hero">
       <div class="hero__content">
-        <span class="hero__eyebrow">Coleção Inverno 26</span>
-        <h1 class="hero__title">Essência em<br>cada peça.</h1>
-        <p class="hero__text">Roupas atemporais, feitas com materiais nobres e um design que fala por si.</p>
+        <span class="hero__eyebrow">Velas e aromas · @luz.serenaaromas</span>
+        <h1 class="hero__title">Transforme o comum<br>em ritual.</h1>
+        <p class="hero__text">Velas aromáticas artesanais, criadas com intenção e cuidado para perfumar sua casa e transformar pequenas pausas em momentos de presença.</p>
         <a href="#produtos" class="btn btn--primary">Ver coleção</a>
+      </div>
+    </section>
+
+    <section class="historia" id="sobre">
+      <div class="historia__content">
+        <h2>Nossa História</h2>
+        <p>Entre mamadeiras, rotinas intensas e dias que pareciam sempre iguais, duas mulheres — mães — começaram a sentir que existia algo dentro delas que ainda queria florescer.</p>
+        <p>Amávamos cuidar. Amávamos nossos filhos. Mas também sentíamos o desejo de criar algo nosso, algo que fosse além da casa, que tivesse propósito e significado.</p>
+        <p>Foi nas pequenas pausas da rotina que descobrimos o poder de uma chama acesa. Uma vela não era apenas um objeto — era silêncio, presença, respiro. Entre noites curtas e sonhos grandes, a Luz Serena começou a nascer.</p>
+        <p>Hoje, a Luz Serena é mais do que velas aromáticas: é um convite para desacelerar, um lembrete de que o cuidado também precisa alcançar quem cuida.</p>
+        <p class="historia__assinatura">Se você acender uma de nossas velas, esperamos que sinta isso: calma, aconchego e a certeza de que pequenas luzes podem transformar dias inteiros.</p>
       </div>
     </section>
 
     <section class="products" id="produtos">
       <div class="products__header">
-        <h2>Mais vendidos</h2>
-        <p>Peças selecionadas para compor o seu essencial.</p>
+        <h2>Nossas Velas</h2>
+        <p>Cada vela é criada com intenção, cuidado e significado — pronta para transformar o seu espaço em um ritual de presença.</p>
       </div>
 
       <div class="product-grid" id="productGrid">
-        <!-- Cards renderizados dinamicamente por carrinho.js a partir de produtos.js -->
+        <!-- Cards renderizados dinamicamente por carrinho.js -->
+      </div>
+    </section>
+
+    <section class="diferenciais" id="diferenciais">
+      <div class="diferenciais__item">
+        <h3>✨ Personalize sua Luz</h3>
+        <p>Guarde uma mensagem especial dentro da vela. A frase surpresa vai aparecendo aos poucos conforme a vela queima, criando um momento único para quem recebe.</p>
+      </div>
+      <div class="diferenciais__item">
+        <h3>♻️ Reutilize seu pote</h3>
+        <p>Quando sua vela acabar, traga o pote de volta e produzimos uma vela nova nele, com o aroma da sua preferência e preço especial de reposição.</p>
+      </div>
+      <div class="diferenciais__item">
+        <h3>🎁 Encomende para seu evento</h3>
+        <p>Casamentos, batizados, chá de bebê e eventos corporativos: criamos velas personalizadas com adesivo, aroma e cor escolhidos por você.</p>
       </div>
     </section>
 
     <section class="newsletter">
-      <h2>Fique por dentro</h2>
-      <p>Receba novidades e ofertas exclusivas em primeira mão.</p>
-      <form class="newsletter__form" onsubmit="return false;">
-        <input type="email" placeholder="Seu melhor e-mail" required aria-label="E-mail">
-        <button type="submit" class="btn btn--primary">Inscrever</button>
-      </form>
+      <h2>Pedidos e Informações</h2>
+      <p>Faça seu pedido e permita-se viver essa experiência.</p>
+      <div class="newsletter__contacts">
+        <a href="https://wa.me/5566996381377" target="_blank" rel="noopener" class="btn btn--primary">WhatsApp (66) 9.9638-1377</a>
+        <a href="https://wa.me/5566997194354" target="_blank" rel="noopener" class="btn btn--primary">WhatsApp (66) 9.9719-4354</a>
+        <a href="https://instagram.com/luz.serenaaromas" target="_blank" rel="noopener" class="btn">@luz.serenaaromas</a>
+      </div>
     </section>
   </main>
 
-  <footer class="footer" id="sobre">
+  <footer class="footer">
     <div class="footer__grid">
       <div class="footer__brand">
-        <span class="logo">HG Modas</span>
-        <p>Moda minimalista para o seu dia a dia.</p>
+        <span class="logo">Luz Serena</span>
+        <p>Velas aromáticas artesanais, feitas para transformar o comum em ritual.</p>
       </div>
       <div class="footer__col">
         <h4>Loja</h4>
-        <a href="#">Novidades</a>
-        <a href="#">Feminino</a>
-        <a href="#">Masculino</a>
+        <a href="#produtos">Novidades</a>
+        <a href="#produtos">Velas Aromáticas</a>
+        <a href="#produtos">Kits e Presentes</a>
       </div>
       <div class="footer__col">
-        <h4>Ajuda</h4>
-        <a href="#">Trocas e devoluções</a>
-        <a href="#">Entrega</a>
-        <a href="#">Contato</a>
+        <h4>Diferenciais</h4>
+        <a href="#diferenciais">Personalize sua Luz</a>
+        <a href="#diferenciais">Reutilize seu pote</a>
+        <a href="#diferenciais">Encomende p/ eventos</a>
       </div>
       <div class="footer__col">
-        <h4>Empresa</h4>
-        <a href="#">Sobre nós</a>
-        <a href="#">Sustentabilidade</a>
+        <h4>Contato</h4>
+        <a href="https://wa.me/5566996381377" target="_blank" rel="noopener">WhatsApp (66) 9.9638-1377</a>
+        <a href="https://instagram.com/luz.serenaaromas" target="_blank" rel="noopener">@luz.serenaaromas</a>
         <a href="admin.html">Painel Admin</a>
       </div>
     </div>
     <div class="footer__bottom">
-      <p>&copy; 2026 HG Modas. Todos os direitos reservados.</p>
+      <p>&copy; 2026 Luz Serena. Todos os direitos reservados.</p>
     </div>
   </footer>
 
@@ -270,6 +300,6 @@
       toggle.setAttribute('aria-expanded', isOpen);
     });
   </script>
-  <script type="module" src="carrinho.js?v=15"></script>
+  <script type="module" src="carrinho.js?v=16"></script>
 </body>
 </html>

@@ -127,7 +127,7 @@ function renderizarCarrinho() {
       <img class="cart-item__image" src="${item.imagem}" alt="${item.nome}">
       <div class="cart-item__info">
         <strong>${item.nome}</strong>
-        <span>Tamanho: ${item.tamanho} · ${item.quantidade}x ${formatarPreco(item.preco)}</span>
+        <span>Variação: ${item.tamanho} · ${item.quantidade}x ${formatarPreco(item.preco)}</span>
       </div>
       <button type="button" class="cart-item__remove" aria-label="Remover item">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -149,13 +149,13 @@ function renderizarCarrinho() {
 function montarMensagemPedido(carrinho, cliente) {
   const linhasItens = carrinho.map((item, index) => {
     const subtotal = item.preco * item.quantidade;
-    return `${index + 1}. ${item.nome} (Tam. ${item.tamanho}) — ${item.quantidade}x ${formatarPreco(item.preco)} = ${formatarPreco(subtotal)}`;
+    return `${index + 1}. ${item.nome} (${item.tamanho}) — ${item.quantidade}x ${formatarPreco(item.preco)} = ${formatarPreco(subtotal)}`;
   });
 
   const total = carrinho.reduce((soma, item) => soma + item.preco * item.quantidade, 0);
 
   const partes = [
-    '*Novo pedido — HG Modas*',
+    '*Novo pedido — Luz Serena*',
     '',
     '*Itens:*',
     ...linhasItens,
@@ -216,10 +216,10 @@ function criarCard(produto, index) {
       <h3>${produto.nome}</h3>
       <p class="product-card__category">${produto.categoria}</p>
       <span class="product-card__price">${formatarPreco(produto.preco)}</span>
-      <div class="product-card__sizes" role="group" aria-label="Tamanhos disponíveis">
+      <div class="product-card__sizes" role="group" aria-label="Variações disponíveis">
         ${
           tamanhoUnico
-            ? `<span class="size-unico">Tamanho ${produto.tamanhosDisponiveis[0]}</span>`
+            ? `<span class="size-unico">${produto.tamanhosDisponiveis[0]}</span>`
             : produto.tamanhosDisponiveis
                 .map((tamanho) => `<button type="button" class="size-btn" data-tamanho="${tamanho}">${tamanho}</button>`)
                 .join('')

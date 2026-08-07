@@ -3,14 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HG Modas — Painel Admin</title>
-  <link rel="stylesheet" href="style.css?v=10">
+  <title>Luz Serena — Painel Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital@0;1&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=13">
 </head>
 <body>
 
   <header class="header">
     <div class="header__inner">
-      <a href="index.html" class="logo">HG Modas</a>
+      <a href="index.html" class="logo">Luz Serena</a>
       <span class="admin-title">Painel Admin</span>
       <button id="logoutBtn" class="btn btn--primary" type="button" hidden>Sair</button>
     </div>
@@ -52,21 +55,20 @@
 
         <label class="admin-checkbox">
           <input type="checkbox" id="campoTamanhoUnico">
-          Produto de tamanho único
+          Produto de variação única
         </label>
 
         <label id="tamanhosWrapper">
-          Tamanhos disponíveis <small>(separe por vírgula, ex: P, M, G)</small>
-          <input type="text" id="campoTamanhos" placeholder="P, M, G" required>
+          Variações disponíveis <small>(separe por vírgula, ex: 90g, 160g ou aromas)</small>
+          <input type="text" id="campoTamanhos" placeholder="90g, 160g" required>
         </label>
 
         <label>
           Categoria
           <select id="campoCategoria" required>
-            <option value="Feminino">Feminino</option>
-            <option value="Masculino">Masculino</option>
-            <option value="Unissex">Unissex</option>
-            <option value="Acessórios">Acessórios</option>
+            <option value="Velas Aromáticas">Velas Aromáticas</option>
+            <option value="Velas Decorativas">Velas Decorativas</option>
+            <option value="Kits e Presentes">Kits e Presentes</option>
           </select>
         </label>
 
