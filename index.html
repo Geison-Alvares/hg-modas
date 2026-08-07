@@ -177,22 +177,6 @@
           <p id="profileStatus" class="admin-status" hidden></p>
         </form>
 
-        <div id="telefoneCodigoSection" class="admin-form" hidden>
-          <p class="admin-status">Enviamos um código por SMS pro novo número.</p>
-          <label>
-            Código recebido por SMS
-            <input type="text" id="codigoSmsInput" inputmode="numeric" placeholder="123456">
-          </label>
-          <div class="admin-form__actions">
-            <button type="button" class="btn btn--primary" id="confirmarCodigoBtn">Confirmar código</button>
-            <button type="button" class="btn" id="reenviarCodigoBtn">Reenviar código</button>
-            <button type="button" class="btn" id="cancelarCodigoBtn">Cancelar</button>
-          </div>
-          <p id="codigoSmsStatus" class="admin-error" hidden></p>
-        </div>
-
-        <div id="recaptcha-container"></div>
-
         <button type="button" class="btn" id="clienteLogoutBtn">Sair</button>
       </section>
     </div>
@@ -268,6 +252,6 @@
       toggle.setAttribute('aria-expanded', isOpen);
     });
   </script>
-  <script type="module" src="carrinho.js?v=10"></script>
+  <script type="module" src="carrinho.js?v=11"></script>
 </body>
 </html>

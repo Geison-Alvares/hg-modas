@@ -6,11 +6,7 @@ import {
   GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
-  verifyBeforeUpdateEmail,
-  PhoneAuthProvider,
-  RecaptchaVerifier,
-  linkWithCredential,
-  updatePhoneNumber
+  verifyBeforeUpdateEmail
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js';
 import {
   doc,
@@ -52,20 +48,11 @@ const accountMenuEmail = document.getElementById('accountMenuEmail');
 const menuDadosBtn = document.getElementById('menuDadosBtn');
 const menuSairBtn = document.getElementById('menuSairBtn');
 
-const telefoneCodigoSection = document.getElementById('telefoneCodigoSection');
-const codigoSmsInput = document.getElementById('codigoSmsInput');
-const confirmarCodigoBtn = document.getElementById('confirmarCodigoBtn');
-const reenviarCodigoBtn = document.getElementById('reenviarCodigoBtn');
-const cancelarCodigoBtn = document.getElementById('cancelarCodigoBtn');
-const codigoSmsStatus = document.getElementById('codigoSmsStatus');
-
 const camposPerfil = [profileNome, profileTelefone, profileEndereco, profileEmail];
 
 const googleProvider = new GoogleAuthProvider();
 
 let perfilAtual = null;
-let recaptchaVerifier = null;
-let verificationIdAtual = null;
 
 export function obterPerfilCliente() {
   return perfilAtual;
@@ -265,78 +252,6 @@ async function iniciarVerificacaoEmail(novoEmail) {
   }
 }
 
-// ---------- Verificação de celular por SMS ----------
-
-function paraE164(numero) {
-  const digitos = numero.replace(/\D/g, '');
-  return digitos.startsWith('55') ? `+${digitos}` : `+55${digitos}`;
-}
-
-function obterRecaptcha() {
-  if (recaptchaVerifier) {
-    recaptchaVerifier.clear();
-  }
-  recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { size: 'invisible' });
-  return recaptchaVerifier;
-}
-
-async function iniciarVerificacaoTelefone(novoTelefone) {
-  try {
-    const phoneProvider = new PhoneAuthProvider(auth);
-    verificationIdAtual = await phoneProvider.verifyPhoneNumber(paraE164(novoTelefone), obterRecaptcha());
-    codigoSmsInput.value = '';
-    codigoSmsStatus.hidden = true;
-    telefoneCodigoSection.hidden = false;
-  } catch (erro) {
-    profileStatus.textContent = `Não foi possível enviar o SMS: ${erro.message}`;
-    profileStatus.hidden = false;
-  }
-}
-
-confirmarCodigoBtn?.addEventListener('click', async () => {
-  codigoSmsStatus.hidden = true;
-
-  try {
-    const credential = PhoneAuthProvider.credential(verificationIdAtual, codigoSmsInput.value.trim());
-
-    try {
-      await linkWithCredential(auth.currentUser, credential);
-    } catch (erro) {
-      if (erro.code === 'auth/provider-already-linked' || erro.code === 'auth/credential-already-in-use') {
-        await updatePhoneNumber(auth.currentUser, credential);
-      } else {
-        throw erro;
-      }
-    }
-
-    const user = auth.currentUser;
-    const novoTelefone = profileTelefone.value.trim();
-    await setDoc(doc(db, 'clientes', user.uid), { telefone: novoTelefone }, { merge: true });
-    perfilAtual = { ...perfilAtual, telefone: novoTelefone };
-
-    telefoneCodigoSection.hidden = true;
-    entrarModoVisualizacao();
-    profileStatus.textContent = 'Celular verificado e atualizado!';
-    profileStatus.hidden = false;
-  } catch (erro) {
-    codigoSmsStatus.textContent = `Código inválido: ${erro.message}`;
-    codigoSmsStatus.hidden = false;
-  }
-});
-
-reenviarCodigoBtn?.addEventListener('click', async () => {
-  codigoSmsStatus.hidden = true;
-  reenviarCodigoBtn.disabled = true;
-  await iniciarVerificacaoTelefone(profileTelefone.value.trim());
-  reenviarCodigoBtn.disabled = false;
-});
-
-cancelarCodigoBtn?.addEventListener('click', () => {
-  telefoneCodigoSection.hidden = true;
-  codigoSmsInput.value = '';
-  preencherFormularioPerfil(perfilAtual);
-});
-
 alterarDadosBtn?.addEventListener('click', entrarModoEdicao);
 
 cancelarEdicaoPerfilBtn?.addEventListener('click', () => {
@@ -360,25 +275,19 @@ profileForm?.addEventListener('submit', async (event) => {
   const novoEmail = profileEmail.value.trim();
 
   const emailMudou = novoEmail !== (perfilAtual?.email || '');
-  const telefoneMudou = novoTelefone !== (perfilAtual?.telefone || '');
 
   try {
     await setDoc(
       doc(db, 'clientes', user.uid),
-      { nome: novoNome, endereco: novoEndereco },
+      { nome: novoNome, endereco: novoEndereco, telefone: novoTelefone },
       { merge: true }
     );
-    perfilAtual = { ...perfilAtual, nome: novoNome, endereco: novoEndereco };
+    perfilAtual = { ...perfilAtual, nome: novoNome, endereco: novoEndereco, telefone: novoTelefone };
     atualizarNomeNoHeader(perfilAtual, user.email);
     atualizarMenuDropdown(perfilAtual, user.email);
 
     if (emailMudou) {
       await iniciarVerificacaoEmail(novoEmail);
-    }
-
-    if (telefoneMudou) {
-      await iniciarVerificacaoTelefone(novoTelefone);
-      return;
     }
 
     entrarModoVisualizacao();
