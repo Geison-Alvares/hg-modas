@@ -35,6 +35,8 @@ const profileEmail = document.getElementById('profileEmail');
 const profileStatus = document.getElementById('profileStatus');
 const clienteLogoutBtn = document.getElementById('clienteLogoutBtn');
 const googleSignInBtn = document.getElementById('googleSignInBtn');
+const accountIconSvg = document.getElementById('accountIconSvg');
+const accountNameEl = document.getElementById('accountName');
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -42,6 +44,20 @@ let perfilAtual = null;
 
 export function obterPerfilCliente() {
   return perfilAtual;
+}
+
+function atualizarNomeNoHeader(perfil, emailFallback) {
+  const primeiroNome = (perfil?.nome || '').trim().split(' ')[0];
+  const exibicao = primeiroNome || emailFallback || '';
+
+  if (exibicao) {
+    accountNameEl.textContent = exibicao;
+    accountNameEl.hidden = false;
+    accountIconSvg.hidden = true;
+  } else {
+    accountNameEl.hidden = true;
+    accountIconSvg.hidden = false;
+  }
 }
 
 // ---------- Painel lateral ----------
@@ -170,6 +186,7 @@ profileForm?.addEventListener('submit', async (event) => {
 
   await setDoc(doc(db, 'clientes', user.uid), dados, { merge: true });
   perfilAtual = dados;
+  atualizarNomeNoHeader(perfilAtual, user.email);
 
   profileStatus.textContent = 'Dados salvos!';
   profileStatus.hidden = false;
@@ -180,6 +197,7 @@ onAuthStateChanged(auth, async (user) => {
     perfilAtual = null;
     authSection.hidden = false;
     profileSection.hidden = true;
+    atualizarNomeNoHeader(null, null);
     return;
   }
 
@@ -195,4 +213,5 @@ onAuthStateChanged(auth, async (user) => {
   profileTelefone.value = perfilAtual.telefone || '';
   profileEndereco.value = perfilAtual.endereco || '';
   profileEmail.value = perfilAtual.email || user.email || '';
+  atualizarNomeNoHeader(perfilAtual, user.email);
 });

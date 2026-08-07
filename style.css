@@ -151,6 +151,18 @@ img {
   height: 100%;
 }
 
+#accountToggle {
+  width: auto;
+  height: auto;
+  gap: 0.4rem;
+}
+
+.account-name {
+  font-size: 0.82rem;
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+
 .icon-btn .badge {
   position: absolute;
   top: -7px;
