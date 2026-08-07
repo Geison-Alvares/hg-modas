@@ -248,7 +248,7 @@ function preencherFormularioPerfil(perfil) {
 async function iniciarVerificacaoEmail(novoEmail) {
   try {
     await verifyBeforeUpdateEmail(auth.currentUser, novoEmail);
-    profileStatus.textContent = 'Enviamos um link de confirmação para o novo e-mail. Confirme para efetivar a troca.';
+    profileStatus.textContent = 'Enviamos um link de confirmação para o novo e-mail. Confirme para efetivar a troca (olhe também a caixa de spam).';
     profileStatus.hidden = false;
   } catch (erro) {
     profileStatus.textContent =
@@ -360,7 +360,7 @@ reenviarVerificacaoBtn?.addEventListener('click', async () => {
   verificacaoStatus.hidden = true;
   try {
     await sendEmailVerification(auth.currentUser);
-    verificacaoStatus.textContent = 'E-mail reenviado!';
+    verificacaoStatus.textContent = 'E-mail reenviado! Não esqueça de checar a caixa de spam.';
     verificacaoStatus.hidden = false;
   } catch (erro) {
     verificacaoStatus.textContent = `Não foi possível reenviar: ${erro.message}`;
