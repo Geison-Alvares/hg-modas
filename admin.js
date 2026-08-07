@@ -60,7 +60,21 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
-  const adminSnap = await getDoc(doc(db, 'admin', user.uid));
+  console.log('[debug] UID autenticado:', JSON.stringify(user.uid));
+
+  let adminSnap;
+  try {
+    adminSnap = await getDoc(doc(db, 'admin', user.uid));
+  } catch (erro) {
+    console.error('[debug] erro ao ler admin/{uid}:', erro.code, erro.message);
+    loginError.textContent = `Erro ao verificar permissão: ${erro.code || erro.message}`;
+    loginError.hidden = false;
+    await signOut(auth);
+    return;
+  }
+
+  console.log('[debug] documento admin existe?', adminSnap.exists());
+
   if (!adminSnap.exists()) {
     loginError.textContent = 'Essa conta não tem permissão de administrador.';
     loginError.hidden = false;
