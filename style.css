@@ -722,6 +722,64 @@ img {
   border-bottom-color: var(--color-ink);
 }
 
+.auth-intro {
+  text-align: center;
+  margin-bottom: 1.6rem;
+}
+
+.auth-intro h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 0.4rem;
+}
+
+.auth-intro p {
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+}
+
+.btn-google {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 0.8rem;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-google:hover {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  border-color: #c4c0b8;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--color-ink-soft);
+  font-size: 0.78rem;
+  margin: 1.4rem 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-line);
+}
+
+.auth-divider span {
+  padding: 0 0.8rem;
+}
+
 /* ============ Newsletter ============ */
 .newsletter {
   background: var(--color-ink);

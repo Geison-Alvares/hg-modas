@@ -2,6 +2,8 @@ import { auth, db } from './firebase-config.js';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
   signOut,
   onAuthStateChanged
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js';
@@ -32,6 +34,9 @@ const profileEndereco = document.getElementById('profileEndereco');
 const profileEmail = document.getElementById('profileEmail');
 const profileStatus = document.getElementById('profileStatus');
 const clienteLogoutBtn = document.getElementById('clienteLogoutBtn');
+const googleSignInBtn = document.getElementById('googleSignInBtn');
+
+const googleProvider = new GoogleAuthProvider();
 
 let perfilAtual = null;
 
@@ -74,6 +79,32 @@ tabSignup?.addEventListener('click', () => {
   signupForm.hidden = false;
   loginForm.hidden = true;
   authError.hidden = true;
+});
+
+// ---------- Login com Google ----------
+
+googleSignInBtn?.addEventListener('click', async () => {
+  authError.hidden = true;
+
+  try {
+    const credencial = await signInWithPopup(auth, googleProvider);
+    const clienteRef = doc(db, 'clientes', credencial.user.uid);
+    const snap = await getDoc(clienteRef);
+
+    if (!snap.exists()) {
+      await setDoc(clienteRef, {
+        nome: credencial.user.displayName || '',
+        telefone: '',
+        email: credencial.user.email || '',
+        endereco: ''
+      });
+    }
+  } catch (erro) {
+    if (erro.code !== 'auth/popup-closed-by-user') {
+      authError.textContent = 'Não foi possível entrar com Google.';
+      authError.hidden = false;
+    }
+  }
 });
 
 // ---------- Login ----------
